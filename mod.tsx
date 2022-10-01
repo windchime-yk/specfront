@@ -1,9 +1,19 @@
-/** @jsx h  */
-import { h, type Handler, html, type Options, UnoCSS } from "./deps.ts";
-import { SpecbaseOptions } from "./model.ts";
+/**
+ * @jsx h
+ * @jsxFrag Fragment
+ */
+import { Fragment, h, html, type Options, statusCode, UnoCSS } from "./deps.ts";
+import { Link } from "./components/link.tsx";
+import type { SpecbaseOptions } from "./model.ts";
 
-const commonOption = (url: string): Options => ({
-  lang: "ja",
+const commonOption = ({ lang }: { lang?: string }): Omit<Options, "body"> => ({
+  lang: lang ?? "en",
+});
+
+const swaggerCommonOption = (
+  { lang, url, base }: { lang?: string; url: string; base: string },
+): Options => ({
+  ...commonOption({ lang }),
   links: [
     { rel: "mask-icon", href: "/logo.svg", color: "#ffffff" },
     {
@@ -24,16 +34,120 @@ const commonOption = (url: string): Options => ({
       src: "https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-bundle.js",
     },
   ],
-  body: <div id="swagger-ui" />,
+  body: (
+    <>
+      <header class="py-2 px-5">
+        <Link href={base}>Return to TOP page</Link>
+      </header>
+      <main>
+        <div id="swagger-ui" />
+      </main>
+      <footer class="mt-36 mb-2">
+        <small class="block text-center">
+          powered by{" "}
+          <Link
+            type="external"
+            href="https://github.com/swagger-api/swagger-ui"
+          >
+            Swagger UI
+          </Link>{" "}
+          and{" "}
+          <Link type="external" href="https://github.com/rwl-dev/specbase">
+            Specbase
+          </Link>
+        </small>
+      </footer>
+    </>
+  ),
 });
 
 html.use(UnoCSS());
 
-export const specbase = (options: SpecbaseOptions) =>
-  html({
-    ...commonOption(options.url),
-    title: options.title,
+const SITE_NAME = "Specbase";
+const SITE_DESCRIPTION = "Specbase is a wrapper library for the Swagger UI.";
+
+export const specbase = (request: Request, options: SpecbaseOptions) => {
+  const { pathname } = new URL(request.url);
+  const title = options.sitename || SITE_NAME;
+  const description = options.description || SITE_DESCRIPTION;
+  const basePath = options.basepath || "/";
+
+  // TOP page pattern
+  if (pathname === "/") {
+    return html({
+      title,
+      meta: {
+        description,
+      },
+      body: (
+        <>
+          <header class="py-2 px-5">
+            <h1 class="text-3xl font-bold">{title}</h1>
+          </header>
+          <main class="px-8">
+            <p class="mt-4">{description}</p>
+            <section class="mt-4">
+              <h2 class="text-2xl font-bold">Spec list</h2>
+              <ul class="mt-1 pl-5 list-disc">
+                <li class="">
+                  <Link href={options.spec.path}>
+                    {options.spec.title || "Swagger Spec"}
+                  </Link>
+                </li>
+              </ul>
+            </section>
+          </main>
+          <footer class="mt-36">
+            <small class="block text-center">
+              powered by{" "}
+              <Link type="external" href="https://github.com/rwl-dev/specbase">
+                Specbase
+              </Link>
+            </small>
+          </footer>
+        </>
+      ),
+    });
+  }
+
+  // Swagger page pattern
+  if (pathname === options.spec.path) {
+    return html({
+      ...swaggerCommonOption({ url: options.spec.url, base: basePath }),
+      title: `${options.spec.title} | ${title}` || `Swagger Spec | ${title}`,
+      meta: {
+        description: options.spec.description,
+      },
+    });
+  }
+
+  // 404 page pattern
+  return html({
+    title: `404 Not Found | ${title}`,
+    status: statusCode.notFound,
     meta: {
-      description: options.description,
+      description,
     },
+    body: (
+      <>
+        <header class="py-2 px-5">
+          <h1 class="text-3xl font-bold">{title}</h1>
+        </header>
+        <main class="px-8">
+          <p>
+            Sorry, URL not found. Please return to{" "}
+            <Link href={basePath}>TOP page</Link>.
+          </p>
+        </main>
+        <footer class="mt-36">
+          <small class="block text-center">
+            powered by{" "}
+            <Link type="external" href="https://github.com/rwl-dev/specbase">
+              Specbase
+            </Link>
+          </small>
+        </footer>
+      </>
+    ),
   });
+};

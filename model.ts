@@ -1,5 +1,11 @@
 export interface SpecbaseOptions {
-  title: string;
-  description: string;
-  url: string;
+  sitename?: string;
+  description?: string;
+  basepath?: string;
+  spec: {
+    title?: string;
+    description?: string;
+    path: string;
+    url: string;
+  };
 }
