@@ -4,7 +4,7 @@
  */
 import { Fragment, h, html, type Options, statusCode, UnoCSS } from "./deps.ts";
 import { Link } from "./components/link.tsx";
-import type { SpecbaseOptions } from "./model.ts";
+import type { SpecfrontOptions } from "./model.ts";
 
 const commonOption = ({ lang }: { lang?: string }): Omit<Options, "body"> => ({
   lang: lang ?? "en",
@@ -52,8 +52,8 @@ const swaggerCommonOption = (
             Swagger UI
           </Link>{" "}
           and{" "}
-          <Link type="external" href="https://github.com/rwl-dev/specbase">
-            Specbase
+          <Link type="external" href="https://github.com/rwl-dev/specfront">
+            Specfront
           </Link>
         </small>
       </footer>
@@ -63,10 +63,10 @@ const swaggerCommonOption = (
 
 html.use(UnoCSS());
 
-const SITE_NAME = "Specbase";
-const SITE_DESCRIPTION = "Specbase is a wrapper library for the Swagger UI.";
+const SITE_NAME = "Specfront";
+const SITE_DESCRIPTION = "Specfront is a wrapper library for the Swagger UI.";
 
-export const specbase = (request: Request, options: SpecbaseOptions) => {
+export const specfront = (request: Request, options: SpecfrontOptions) => {
   const { pathname } = new URL(request.url);
   const title = options.sitename || SITE_NAME;
   const description = options.description || SITE_DESCRIPTION;
@@ -100,8 +100,8 @@ export const specbase = (request: Request, options: SpecbaseOptions) => {
           <footer class="mt-36">
             <small class="block text-center">
               powered by{" "}
-              <Link type="external" href="https://github.com/rwl-dev/specbase">
-                Specbase
+              <Link type="external" href="https://github.com/rwl-dev/specfront">
+                Specfront
               </Link>
             </small>
           </footer>
@@ -142,8 +142,8 @@ export const specbase = (request: Request, options: SpecbaseOptions) => {
         <footer class="mt-36">
           <small class="block text-center">
             powered by{" "}
-            <Link type="external" href="https://github.com/rwl-dev/specbase">
-              Specbase
+            <Link type="external" href="https://github.com/rwl-dev/specfront">
+              Specfront
             </Link>
           </small>
         </footer>

@@ -1,4 +1,4 @@
-export interface SpecbaseOptions {
+export interface SpecfrontOptions {
   sitename?: string;
   description?: string;
   basepath?: string;

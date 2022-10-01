@@ -1,8 +1,8 @@
 import { serve } from "./deps.ts";
-import { specbase } from "./mod.tsx";
+import { specfront } from "./mod.tsx";
 
 serve((req) =>
-  specbase(req, {
+  specfront(req, {
     spec: {
       title: "Sample Swagger",
       description: "Swagger testing page",
