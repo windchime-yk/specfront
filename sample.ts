@@ -3,6 +3,7 @@ import { specfront } from "./mod.tsx";
 
 serve((req) =>
   specfront(req, {
+    lang: "en",
     spec: {
       title: "Sample Swagger",
       description: "Swagger testing page",
