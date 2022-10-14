@@ -73,7 +73,7 @@ export const specfront = (request: Request, options: SpecfrontOptions) => {
   const basePath = options.basepath || "/";
 
   // TOP page pattern
-  if (pathname === "/") {
+  if (pathname === basePath) {
     if (options.disabledLanding) {
       return html({
         ...swaggerCommonOption({
@@ -156,7 +156,7 @@ export const specfront = (request: Request, options: SpecfrontOptions) => {
         <main class="px-8">
           <p>
             Sorry, URL not found. Please return to{" "}
-            <Link href={basePath}>TOP page</Link>.
+            <Link href="/">TOP page</Link>.
           </p>
         </main>
         <footer class="mt-36">
