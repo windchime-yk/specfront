@@ -4,16 +4,14 @@
  */
 import { Fragment, h, html, type Options, statusCode, UnoCSS } from "./deps.ts";
 import { Link } from "./components/link.tsx";
-import type { SpecfrontOptions } from "./model.ts";
+import type { CommonOptions, SpecfrontOptions } from "./model.ts";
 
-const commonOption = ({ lang }: { lang?: string }): Omit<Options, "body"> => ({
-  lang: lang ?? "en",
+const commonOption = (options: CommonOptions): Omit<Options, "body"> => ({
+  lang: options.lang,
 });
 
-const swaggerCommonOption = (
-  { lang, url, base }: { lang?: string; url: string; base: string },
-): Options => ({
-  ...commonOption({ lang }),
+const swaggerCommonOption = (options: CommonOptions): Options => ({
+  ...commonOption(options),
   links: [
     { rel: "mask-icon", href: "/logo.svg", color: "#ffffff" },
     {
@@ -25,7 +23,7 @@ const swaggerCommonOption = (
     `
     window.onload = () => {
       window.ui = SwaggerUIBundle({
-        url: '${url}',
+        url: '${options.url}',
         dom_id: '#swagger-ui',
       });
     };
@@ -36,9 +34,11 @@ const swaggerCommonOption = (
   ],
   body: (
     <>
-      <header class="py-2 px-5">
-        <Link href={base}>Return to TOP page</Link>
-      </header>
+      {!options.disabledLanding && (
+        <header class="py-2 px-5">
+          <Link href={options.base || ""}>Return to TOP page</Link>
+        </header>
+      )}
       <main>
         <div id="swagger-ui" />
       </main>
@@ -73,7 +73,22 @@ export const specfront = (request: Request, options: SpecfrontOptions) => {
   const basePath = options.basepath || "/";
 
   // TOP page pattern
-  if (pathname === "/") {
+  if (pathname === basePath) {
+    if (options.disabledLanding) {
+      return html({
+        ...swaggerCommonOption({
+          lang: options.lang,
+          url: options.spec.url,
+          base: basePath,
+          disabledLanding: options.disabledLanding,
+        }),
+        title: `${options.spec.title} | ${title}`,
+        meta: {
+          description: options.spec.description,
+        },
+      });
+    }
+
     return html({
       title,
       meta: {
@@ -90,7 +105,7 @@ export const specfront = (request: Request, options: SpecfrontOptions) => {
               <h2 class="text-2xl font-bold">Spec list</h2>
               <ul class="mt-1 pl-5 list-disc">
                 <li class="">
-                  <Link href={options.spec.path}>
+                  <Link href={options.spec.path || ""}>
                     {options.spec.title || "Swagger Spec"}
                   </Link>
                 </li>
@@ -113,7 +128,12 @@ export const specfront = (request: Request, options: SpecfrontOptions) => {
   // Swagger page pattern
   if (pathname === options.spec.path) {
     return html({
-      ...swaggerCommonOption({ url: options.spec.url, base: basePath }),
+      ...swaggerCommonOption({
+        lang: options.lang,
+        url: options.spec.url,
+        base: basePath,
+        disabledLanding: options.disabledLanding,
+      }),
       title: `${options.spec.title} | ${title}` || `Swagger Spec | ${title}`,
       meta: {
         description: options.spec.description,
@@ -136,7 +156,7 @@ export const specfront = (request: Request, options: SpecfrontOptions) => {
         <main class="px-8">
           <p>
             Sorry, URL not found. Please return to{" "}
-            <Link href={basePath}>TOP page</Link>.
+            <Link href="/">TOP page</Link>.
           </p>
         </main>
         <footer class="mt-36">
