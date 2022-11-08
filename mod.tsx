@@ -25,6 +25,7 @@ const swaggerCommonOption = (options: CommonOptions): Options => ({
       window.ui = SwaggerUIBundle({
         url: '${options.url}',
         dom_id: '#swagger-ui',
+        supportedSubmitMethods: ["get", "head"],
       });
     };
     `,
