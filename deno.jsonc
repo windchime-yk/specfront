@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "dev": "deno run --allow-net=0.0.0.0:8000 --watch sample.ts",
-    "fmt": "deno fmt --ignore=README.md,LICENSE"
-  }
+    "dev": "deno run --allow-net=0.0.0.0:8000 --watch sample.ts"
+  },
+  "exclude": ["README.md", "LICENSE"]
 }
