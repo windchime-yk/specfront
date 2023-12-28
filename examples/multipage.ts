@@ -1,7 +1,6 @@
-import { serve } from "./deps.ts";
-import { specfront } from "./mod.tsx";
+import { specfront } from "../mod.tsx";
 
-serve((req) =>
+Deno.serve((req) =>
   specfront(req, {
     lang: "en",
     spec: {

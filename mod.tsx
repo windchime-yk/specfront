@@ -2,7 +2,14 @@
  * @jsx h
  * @jsxFrag Fragment
  */
-import { Fragment, h, html, type Options, statusCode, UnoCSS } from "./deps.ts";
+import {
+  Fragment,
+  h,
+  html,
+  type Options,
+  STATUS_CODE,
+  UnoCSS,
+} from "./deps.ts";
 import { Link } from "./components/link.tsx";
 import type { CommonOptions, SpecfrontOptions } from "./model.ts";
 
@@ -145,7 +152,7 @@ export const specfront = (request: Request, options: SpecfrontOptions) => {
   // 404 page pattern
   return html({
     title: `404 Not Found | ${title}`,
-    status: statusCode.notFound,
+    status: STATUS_CODE.NotFound,
     meta: {
       description,
     },
