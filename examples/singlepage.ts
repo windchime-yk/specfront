@@ -22,4 +22,4 @@ app.get("/petstore", (ctx) => {
   });
 });
 
-Deno.serve(app.fetch)
+Deno.serve(app.fetch);

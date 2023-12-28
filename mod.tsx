@@ -2,7 +2,14 @@
  * @jsx h
  * @jsxFrag Fragment
  */
-import { Fragment, h, html, type Options, STATUS_CODE, UnoCSS } from "./deps.ts";
+import {
+  Fragment,
+  h,
+  html,
+  type Options,
+  STATUS_CODE,
+  UnoCSS,
+} from "./deps.ts";
 import { Link } from "./components/link.tsx";
 import type { CommonOptions, SpecfrontOptions } from "./model.ts";
 
