@@ -1,4 +1,4 @@
-import { specfront } from "./mod.tsx";
+import { specfront } from "../mod.tsx";
 
 Deno.serve((req) =>
   specfront(req, {
