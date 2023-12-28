@@ -17,4 +17,4 @@ jobs:
       - name: Lint
         run: deno lint
       - name: Format Check
-        run: deno task fmt --check
+        run: deno fmt --check
