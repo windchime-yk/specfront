@@ -1,4 +1,4 @@
-import { Hono } from "https://deno.land/x/hono@v3.11.11/mod.ts";
+import { Hono } from "https://deno.land/x/hono@v3.12.11/mod.ts";
 import { specfront } from "../mod.tsx";
 
 const app = new Hono();
