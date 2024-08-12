@@ -3,6 +3,10 @@
 
 Unofficial Swagger UI wrapper library for Deno.
 
+## Notice
+Deno is supported Node.js and npm packages.
+This project is freezed.
+
 ## Usage
 ### Single page(disabled landing page)
 ``` typescript
